@@ -39,8 +39,8 @@
 		
 	<!-- 아무것도 안했으니까영.....흑흑...리스트 없네여....하하하하
 	이제 여기가 뭐 나올 곳들이랍니다! content 마구마구마구 채우기~~~ 
-	내용채우기 start-->			
-	<!-- Main content -->
+	내용채우기 start-->
+		<!-- Main content -->
 			<section class="content" id="app1">
 				<div class="container-fluid" style="margin-top: 10px">
 					<div class="row">
@@ -68,8 +68,11 @@
 					                            <th>No</th>
 					                            <th>SNS 가입</th>
 					                            <th>회원명(닉네임)</th>
-					                            <th>Email</th>
-					                            <th>기타정보</th>
+					                            <th>Email</th>					                            
+					                            <th>은행</th>
+					                            <th>계좌</th>
+					                            <th>경험유무</th>
+					                            <th>활동상태</th>
 					                        </tr>
 					                    </thead>
 					                        <tr>
@@ -79,9 +82,24 @@
 					                            	<a href="#">GIni</a>
 					                            </td>
 					                            <td><span class="tag tag-success">gini@gmail.com</span></td>
-					                            <td>네이버라면 폰 정보 정도</td>
+					                            <td>기업</td>
+					                            <td>190 019 1 212</td>
+					                            <td>경험없음</td>
+					                            <td>승인</td>
 					                        </tr>
 
+					                        <tr>
+					                            <td>11</td>
+					                            <td>google</td>
+					                            <td>
+					                            	<a href="#">GIni</a>
+					                            </td>
+					                            <td><span class="tag tag-success">gini@gmail.com</span></td>
+					                            <td>기업</td>
+					                            <td>190 019 1 212</td>
+					                            <td>경험없음</td>
+					                            <td>반려</td>
+					                        </tr>
 					                    </tbody>
 					                </table>
 					                
@@ -98,10 +116,6 @@
 			
 			</section>
 			<!-- /.content -->
-		</div>
-		
-	<!-- 내용채우기 end -->
-
 
 
         <!-- / Layout page -->

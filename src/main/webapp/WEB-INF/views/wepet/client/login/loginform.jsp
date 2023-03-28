@@ -14,7 +14,91 @@
 <!-- Header End -->
 
 <script src="https://js.tosspayments.com/v1/payment"></script>
+<style type="text/css">
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 100;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf)
+		format('opentype');
+}
 
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 300;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 400;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 500;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 700;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf)
+		format('opentype');
+}
+
+@font-face {
+	font-family: 'Noto Sans KR';
+	font-style: normal;
+	font-weight: 900;
+	src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2)
+		format('woff2'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff)
+		format('woff'),
+		url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf)
+		format('opentype');
+}
+
+#login_form {
+	/* text-align:center; */
+	border-radius: 10px;
+	padding: 50px;
+	background: #fff;
+	text-align: center;
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+</style>
 </head>
 
 <body>
@@ -30,47 +114,51 @@
 <%@ include file="../inc/gardener/inc/navbar_link.jsp"%>
 <!-- Navbar End -->
 
-<!-- Body -->
-<a class="skip-link sr-only" href="#skip-target">Skip to content</a>
+	<!-- Body -->
+	<a class="skip-link sr-only" href="#skip-target">Skip to content</a>
 
-<div class="page-flex">
-<!--  Sidebar Start -->
-<!--  Sidebar End-->
+	<div class="page-flex">
+		<!--  Sidebar Start -->
+		<!--  Sidebar End-->
 		<!-- 서치바인듯 아닌듯 End -->
-		
-	<!-- content t-->
-	
-   	<div class="container">
-   		<div class="row m-5">
-   			<div class="col">
-				    <form id="form1">
-				        <div class="form-group">
-				            <input type="text" class="form-control" placeholder="Enter id" name="id">
-				        </div>
-				        <div class="form-group">
-				            <input type="text" class="form-control" placeholder="Enter pass" name="pass">
-				        </div>
-				      
-				        <button type="button" class="btn btn-success" id="bt_google">Google 로그인</button>			        
-				        <button type="button" class="btn btn-success" id="bt_naver">Naver 로그인</button>
-				        <button type="button" class="btn btn-success" id="bt_kakao">Kakao 로그인</button>
 
-				        
-				    </form>
-   			
-   			</div>
-   		</div>
-   	</div>
+		<!-- content t-->
 
- 
-​
-        <!-- / Layout page -->
-      </div>
+		<div id="login_form">
+			<!--로그인 폼-->
+			<form>
+				<h3 class="login" style="letter-spacing: -1px;">Sign in to Wepet</h3>
+				
+				<br>
+				<p>
+					<label>위팻 소셜&통합회원가입</label>
+				</p>				<br>
+				<p>
+					<label>소셜 간편로그인</label>
+				</p>
+				<br>
+				<button type="button" class="bt_google" id="bt_google" style="margin-bottom: 10px">
+					<img src="/resources/gardener/img/google_button.png" height="60"
+						width="200" />
+				</button><br>
+				<button type="button" class="bt_naver" id="bt_naver" style="margin-bottom: 10px">
+					<img src="/resources/gardener/img/naver_button.png" height="60"
+						width="200" />
+				</button><br>
+				<button type="button" class="bt_kakao" id="bt_kakao" style="margin-bottom: 10px">
+					<img src="/resources/gardener/img/kakao_button.png" height="60"
+						width="200" />
+				</button>
+			</form>
 
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
-    </div>
-    <!-- / Layout wrapper -->
+			​
+			<!-- / Layout page -->
+		</div>
+
+		<!-- Overlay -->
+		<div class="layout-overlay layout-menu-toggle"></div>
+	</div>
+	<!-- / Layout wrapper -->
 
 
 	<!-- head_link 2 : 헤드랑 비슷한데, 위아래 나눠져있길래 그냥 나눴슴당.. -->

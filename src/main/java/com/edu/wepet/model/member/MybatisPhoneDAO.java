@@ -33,7 +33,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		int result = sqlSessionTemplate.insert("Phone.insert", phone);
 		
 		if(result<1) {
-			throw new PhoneException("phone 입력 성공");
+			throw new PhoneException("phone 입력 실패");
 		}
 	}
 

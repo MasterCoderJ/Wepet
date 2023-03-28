@@ -9,12 +9,12 @@
 <result column="accountNum" property="accountNum" />
 <result column="bank" property="bank" />
 		
-		<!-- 1 : 1 관계... ? sitterapply-->
+		<!-- sitterapply-->
 		<association
 			column="sitter_apply_idx" 
 			property="sitterApply"
 			javaType="SitterApply"
-			select="Sns.selectByMember"
+			select="SitterApply.selectByPetsitter"
 		/>
 		
 		<collection
@@ -32,11 +32,15 @@
 		select * from petsitter
 	</select>
 	
+	<select id="select" resultMap="PetsitterMap">
+		select * from petsitter
+	</select>
+	
 	<!-- 펫시터 회원 가입 -->
 	<insert id="insert" parameterType="PetSitter">
-		insert into petsitter(petsitter_idx, sitter_nickname, accountNum, bank)
-		values(seq_petsitter.nextval, #{sitter_nickname},#{accountNum}, #{bank} )
-	
+		insert into petsitter(petsitter_idx, member_idx, sitter_nickname, accountNum, bank, exp, sitter_apply_idx)
+		values(seq_petsitter.nextval, #{member.member_idx}, #{sitter_nickname},#{accountNum}, #{bank}, #{exp}, #{sitterApply.sitter_apply_idx})
 	</insert>
+
 
 </mapper>

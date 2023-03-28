@@ -1,5 +1,7 @@
 package com.edu.wepet.client.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
 	
 	@GetMapping("/")
-	public ModelAndView getMain() { 
+	public ModelAndView getMain(HttpServletRequest request) { 
 		 
 		//메인 
 		ModelAndView mav= new ModelAndView();
@@ -16,6 +18,8 @@ public class MainController {
 		
 		return mav;
 	}	
+	
+	
 	
 
 }

@@ -24,6 +24,7 @@ import com.edu.wepet.domain.Email;
 import com.edu.wepet.domain.Member;
 import com.edu.wepet.domain.Phone;
 import com.edu.wepet.domain.Sns;
+import com.edu.wepet.exception.MemberException;
 import com.edu.wepet.model.member.EmailService;
 import com.edu.wepet.model.member.MemberService;
 import com.edu.wepet.model.member.SnsService;
@@ -61,15 +62,7 @@ public class MemberController {
 	
 	@Autowired
 	private EmailService emailService;
-	
-	
-	//일반회원 조회
-	@GetMapping("/member/list")
-	public ModelAndView getUserList(HttpServletRequest request) {
 		
-		ModelAndView mav= new ModelAndView("wepet/admin/user/list");
-		return mav;
-	}
 	
 	//로그인 폼 요청
 	@GetMapping("/member/loginform")
@@ -79,6 +72,19 @@ public class MemberController {
 		return mav;
 	}
 	
+	//로그아웃 처리
+    @GetMapping("/member/logout")
+    public ModelAndView getLogout(HttpServletRequest request) throws MemberException{
+        
+        logger.info("logout 요청, 세션 주기기");
+        
+        HttpSession session = request.getSession();
+        session.invalidate();
+		
+		ModelAndView mav = new ModelAndView("redirect:/");
+        return mav;        
+        
+    }
 	
 	
 	//구글 로그인 콜백.
@@ -195,9 +201,10 @@ public class MemberController {
 			
 			//회원정보없으니까 -가입시키기
  			memberService.regist(member);
- 			
+ 			logger.info("방금 등록한 회원인 경우의 member_idx " + member.getMember_idx());
+		}else{			
+			logger.info("이미 회원인 경우의 member_idx " + member.getMember_idx());
 		}
-		
 		
 		
 		//나머지는 로그인을 그냥 가면 된다.	
@@ -306,6 +313,7 @@ public class MemberController {
 		//멤버에 대한 고유 id 조회 -- dao
 		Member member = memberService.selectById(id);
 		
+		
 		//회원정보가 없다면 회원가입  --- 로그인은 
 		if(member==null) {
 		//이미 디비에 이 회원의 식별고유 id가 존재할 경우
@@ -321,7 +329,9 @@ public class MemberController {
 			
 			//회원정보없으니까 -가입시키기
  			memberService.regist(member);
- 			
+ 			logger.info("회원인 경우의 member_idx " + member.getMember_idx());
+		}else {			
+			logger.info("이미 회원인 경우의 member_idx " + member.getMember_idx());
 		}
 		
 		//나머지는 로그인을 그냥 가면 된다.	
@@ -463,8 +473,11 @@ public class MemberController {
 			
 			//회원정보없으니까 -가입시키기
  			memberService.regist(member);
- 			
+ 			logger.info("방금 회원인 경우의 member_idx " + member.getMember_idx());
+		}else{			
+			logger.info("이미 회원인 경우의 member_idx " + member.getMember_idx());
 		}
+		
 		
 		//나머지는 로그인을 그냥 가면 된다.	
 		session.setAttribute("member", member);
