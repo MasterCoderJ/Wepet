@@ -29,7 +29,31 @@
 	
 	<context:component-scan base-package="com.edu.wepet.client.controller" />
 
+		<!-- member 로그인 체크를 위한 빈 설정 -->
+	<beans:bean 
+		id="memberLoginCheckAdvice" 
+		class="com.edu.wepet.aop.MemberLoginCheckAdvice"/>
 	
+	<aop:config>
+		<aop:aspect ref="memberLoginCheckAdvice">
+			<aop:pointcut expression="execution(public * com.edu.wepet.client.controller..*(..))" id="memberLoginCheckPointcut"/>
+			<aop:around method="sessionCheck" pointcut-ref="memberLoginCheckPointcut"/>
+		</aop:aspect>
+	</aop:config>	
+	
+	
+	<!-- 관리자와 관련된 글로벌 예외 빈 등록 -->
+			<beans:bean
+		id="restClientGlobalException" 
+		class="com.edu.wepet.aop.RestClientGlobalException"/>
+		
+	<beans:bean
+		id="clientGlobalException" 
+		class="com.edu.wepet.aop.ClientGlobalException"/>
+	
+	
+		<!-- ********************************************************************* -->			
+				
 	<!-- 구글 로그인 관련정보 등록 -->
  	<beans:bean id="googleLogin" class="com.edu.wepet.sns.GoogleLogin">
  	

@@ -1,5 +1,7 @@
 package com.edu.wepet.client.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,9 +13,10 @@ public class BoardController {
 
 	//고객센터 메인 호출
 	@GetMapping("/qnaboard/main")
-	public ModelAndView getBoardList() {
+	public ModelAndView getBoardList(HttpServletRequest request) {
 		
-		return null;
+		ModelAndView mav = new ModelAndView("wepet/client/qna_board/list");
+		return mav;
 	}
 	
 	

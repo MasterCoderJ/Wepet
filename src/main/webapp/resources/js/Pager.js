@@ -6,7 +6,7 @@ class Pager{
 	//멤버변수를 반드시 constructor() 안에 두어야 함 
 	constructor(){
 		this.totalRecord; //총 레코드 수
-		this.pageSize=5; //페이지당 보여질 레코드 수
+		this.pageSize=10; //페이지당 보여질 레코드 수
 		this.totalPage=0; //총 페이지 수
 		this.blockSize=10; //블럭당 보여질 페이지 수
 		this.currentPage=1; //현재 페이지

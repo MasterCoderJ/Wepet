@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Certificate">
+
+
+	<resultMap type="Certificate"					id="certificateMap">
+		<id 			column="certificate_idx" 		property="certificate_idx"/>
+		<result 	column="title" 						property="title"/>
+		<result 	column="regdate" 				property="regdate"/>
+
+		<!-- 부모인 CertCategory와  association-->
+		<association 
+			column="certcategory_idx" 
+			property="certCategory"
+			javaType="CertCategory"
+			select="CertCategory.select"/>
+		 
+	</resultMap>
+
+	<select id="selectAll" resultType="Certificate">
+		select * from certificate order by certificate_idx desc
+	</select>
+	
+	<select id="select" parameterType="int" resultType="Certificate">
+		select * from certificate where certificate_idx=#{certificate_idx}
+	</select>
+
+	<insert id="insert" parameterType="Certificate">
+		insert into certificate(certcategory_idx, title, regdate)
+		values(#{certcategory.certcertificate_idx}, #{title}, #{regdate})
+		
+		<selectKey 
+			keyColumn="certificate_idx"
+			keyProperty="certificate_idx"
+			order="AFTER"
+			resultType="int">
+			<!--위에서 실행된 insert에 의해 발생한 pk가져오기
+			select last_insert_id() as certcategory_idx
+			-->
+				
+			select seq_gallery.currval as certificate_idx from dual
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="Certificate">
+		update certificate set certcategory_idx=#{certcategory.certcategory_idx} 
+		, title=#{title}, 
+		, regdate=#{regdate}
+		where certificate_idx=#{certificate_idx} 
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from certificate where certificate_idx=#{certificate_idx}
+	</delete>
+
+
+</mapper>

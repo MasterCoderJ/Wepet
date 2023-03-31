@@ -1,5 +1,7 @@
 package com.edu.wepet.domain;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -14,4 +16,6 @@ public class Member {
 	//이메일, 핸드폰... 보유하기로하고
 	private Email email;
 	private Phone phone;
+	
+	private PetSitter petSitter;
 }

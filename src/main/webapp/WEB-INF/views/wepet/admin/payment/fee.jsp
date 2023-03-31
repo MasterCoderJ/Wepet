@@ -149,6 +149,7 @@
 
 
 
+
 		<!-- / Layout page -->
 	</div>
 
@@ -161,6 +162,7 @@
 	<!-- head_link 2 -->
 	<%@ include file="../inc/sneat//sneat_header_link2.jsp"%>
 	<!-- head_link 2  End -->
+
 
 <script type="text/javascript">
 
@@ -386,5 +388,9 @@ $(function(){
 });	
 
 </script>
+
+
+
+
 </body>
 </html>

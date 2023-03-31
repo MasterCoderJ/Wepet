@@ -18,17 +18,15 @@ public class MybatisMemberDAO implements MemberDAO{
 	
 	@Override
 	public List selectAll() {
-		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList("Member.selectAll");
 	}
-
 	
 	//회원인지 아닌지를 컨트롤러가서
 	@Override
 	public Member selectById(String id) {
 		
 		Member member = sqlSessionTemplate.selectOne("Member.selectById", id);
-		
+	
 		return member;
 	}
 

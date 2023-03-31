@@ -1,7 +1,8 @@
 <%@page import="org.slf4j.LoggerFactory"%>
 <%@page import="org.slf4j.Logger"%>
+<%@page import="com.edu.wepet.domain.Holiday"%>
 <%@page import="java.util.List"%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <!-- beautify ignore:start -->
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
@@ -89,6 +90,7 @@ td {
 	cursor: pointer;
 }
 </style>
+
 <%@ include file="../inc/sneat/sneat_header_link.jsp"%>
 </head>
 
@@ -143,26 +145,89 @@ td {
 					</div>
 					<div class="col-xl" id="pet_live" style="display: none;">
 						<div class="card mb-4">
-							<div class="card-header d-flex justify-content-between align-items-center">
+							<div class="card-header d-flex justify-content-between align-items-center" id="hi">
 								<h5 class="mb-0">진행중인 일정</h5>
 							</div>
 							<div class="card-body">
 								<form>
 									<div class="mb-3">
-										<label class="form-label" for="basic-default-fullname">예약일시</label> <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe">
+										<label class="form-label" for="basic-default-fullname">예약일시</label> 
+										<input type="text" class="form-control" readonly="readonly" id="basic-default-fullname" placeholder="John Doe">
 									</div>
 									<div class="mb-3">
-										<label class="form-label" for="basic-default-company">고객성명</label> <input type="text" class="form-control" id="basic-default-company" placeholder="ACME Inc.">
+										<label class="form-label" for="basic-default-company">고객성명</label> 
+										<input type="text" class="form-control" readonly="readonly" id="basic-default-company" placeholder="ACME Inc.">
 									</div>
 									<div class="mb-3">
-										<label class="form-label" for="basic-default-phone">견종/나이</label> <input type="text" id="basic-default-phone" class="form-control phone-mask" placeholder="말티즈/6세">
+										<label class="form-label" for="basic-default-phone">펫 종류</label> 
+										<input type="text" id="basic-default-phone" readonly="readonly" class="form-control phone-mask" placeholder="고양이">
 									</div>
 									<div class="mb-3">
 										<label class="form-label" for="basic-default-message">요청사항</label>
-										<textarea id="basic-default-message" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?">
+										<textarea id="basic-default-message" readonly="readonly" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?">
 										</textarea>
 									</div>
 									<button type="button" class="btn btn-primary">일지작성</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl" id="pet_today">
+						<div class="card mb-4">
+							<div class="card-header d-flex justify-content-between align-items-center">
+								<h5 class="mb-0">오늘의 일정</h5>
+							</div>
+							<div class="card-body">
+								<form>
+									<div class="mb-3">
+										<label class="form-label" for="basic-default-fullname">예약일시</label> 
+										<input type="text" class="form-control" readonly="readonly" id="basic-default-fullname" placeholder="John Doe">
+									</div>
+									<div class="mb-3">
+										<label class="form-label" for="basic-default-company">주소</label> 
+										<input type="text" class="form-control" readonly="readonly" id="basic-default-company" placeholder="ACME Inc.">
+									</div>
+									<div class="mb-3">
+										<label class="form-label" for="basic-default-message">요청사항</label>
+										<textarea id="basic-default-message" readonly="readonly" class="form-control" placeholder="Hi, Do you have a moment to talk Joe?">
+										</textarea>
+									</div>
+									<button type="button" class="btn btn-primary" id="bt_go">일정진행</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xxl" id="pet_showlist" style="display: none;">
+						<div class="card mb-4">
+							<div class="card-header d-flex align-items-center justify-content-between">
+								<h5 class="mb-0">전체 예약 일정</h5>
+							</div>
+							<div class="card-body">
+								<form>
+									<div class="card">
+										<div class="table-responsive text-nowrap">
+											<table class="table table-hover">
+												<thead class="table-active text-center">
+													<tr>
+														<th>No</th>
+														<th>예약일</th>
+														<th>견종</th>
+														<th>펫의 수</th>
+													</tr>
+												</thead>
+												<tbody class="table-border-bottom-0 text-center">
+													<tr> 
+														<td>01</td>
+														<td>2023-03-28</td>
+														<td>소형견</td>
+														<td>2마리</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</form>
 							</div>
 						</div>
@@ -194,7 +259,7 @@ td {
 			</div>
 		</div>
 		<!-- Modal end -->
-		
+
 		<!-- 일지모달 start -->
 		<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -277,6 +342,7 @@ td {
                 newDIV.addEventListener("click", function(){
                 	
                 	deleteHoliday(this);
+                	console.log(this.innerText);
                 });
 
                 dayBoxList.push(newDIV);
@@ -353,7 +419,7 @@ td {
             } else if (new Date(end_date) - new Date(start_date) < 0) {
                 alert("종료일이 시작일보다 먼저입니다.");
             } else if (strDate < nowDay && endDate < nowDay || strDate< nowDay && endDate> nowDay) {
-                alert("당일 또는 현재 보다 이전 날짜는 선택 하실 수 없습니다");
+            	alert("당일 또는 현재 보다 이전 날짜는 선택 하실 수 없습니다");
             }
             
 			if (strDate<=endDate && strDate>= nowDay && endDate>=nowDay) {
@@ -464,21 +530,34 @@ td {
 		//날짜정보를 가진 p 태그의 DOM을 넘겨받음
 		function deleteHoliday(obj){
 			
-			if(obj ==undefined || obj.className=="pastDay"){
+			if(obj ==undefined || obj.className=="pastDay" || obj.className=="futureDay" ){
 				return;
 			}
 			if(confirm(obj.innerText+"날을 삭제하실래요?")){
 				 obj.classList.remove("choiceDay");
+				 console.log("nowMonth.getFullYear",nowMonth.getFullYear());
+				 console.log("nowMonth.getMonth",nowMonth.getMonth()+1);
 				 
-				 //db연동 
+				 let yy= String(nowMonth.getFullYear());
+				 let mm= String(nowMonth.getMonth()+1);
+				 let dd= obj.innerText;
+				 
+				 let day=dd.replace(/(^0+)/, "");
+				 
+				 let json={
+						 yy:yy,
+						 mm:mm,
+						 dd:day
+					 };
+				 
+				 console.log("json은?",json);
+				 
 				 $.ajax({
 					 url:"/rest/holiday",
-					 method:"get",
-					 data:{
-						 yy:"",
-						 mm:"",
-						 dd:obj.innerText
-					 },
+					 method:"delete",
+					 dataType:"json",
+					 contentType:"application/json",
+					 data:JSON.stringify(json),
 					 success:function(result, status, xhr){
 						 
 					 }
@@ -494,10 +573,41 @@ td {
             callModal();
             reigstModal();
             deleteHoliday();
-			
-            $("#bt_live").click(function(){
-            	$("#pet_live").show();
+            
+            $("#bt_go").click(function(){	
+            	
+            	if(confirm("일정을 시작하시겠습니까?")){
+	            	$("#pet_today").hide();
+	            	$("#pet_showlist").hide();
+	            	$("#pet_live").show();
+            	}
+            	
+            	$("#bt_go").attr("disabled",true);
+            	
             });
+            
+            $("#bt_res").click(function(){
+            	$("#pet_today").hide();
+            	$("#pet_live").hide();
+            	$("#pet_showlist").show();
+            });
+            
+            $("#bt_today").click(function(){
+            	$("#pet_today").show();
+            	$("#pet_live").hide();
+            	$("#pet_showlist").hide();
+            });
+            
+            $("#bt_live").click(function(){
+            	
+            	if(document.getElementById("bt_go").disabled==true){
+	            	$("#pet_today").hide();
+	            	$("#pet_live").show();
+	            	$("#pet_showlist").hide();
+            	}
+            });
+
+
         });
 
     </script>

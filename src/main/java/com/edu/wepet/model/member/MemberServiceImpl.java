@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 	@Override
-	public List selectAll() {
+	public List selectAll() {	
 		return memberDAO.selectAll();
 	}
 
@@ -60,11 +60,12 @@ public class MemberServiceImpl implements MemberService{
 			emailDAO.insert(member.getEmail());
 			
 		}else if(member.getSns().getSns_type().equals("naver")) {
-			member.getPhone().setMember(member);
-			
+
 			emailDAO.insert(member.getEmail());
-			phoneDAO.insert(member.getPhone());
 			
+			member.getPhone().setMember(member);			
+			phoneDAO.insert(member.getPhone());
+
 		}
 		
 	}

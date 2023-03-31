@@ -1,0 +1,39 @@
+package com.edu.wepet.model.member;
+
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.edu.wepet.domain.PetSitter;
+import com.edu.wepet.exception.PetsitterException;
+import com.edu.wepet.exception.PhoneException;
+
+@Repository
+public class MybatisPetsitterDAO implements PetsitterDAO{
+
+	@Autowired
+	private SqlSessionTemplate SqlSessionTemplate;
+	
+	@Override
+	public List selectAll() {
+		return SqlSessionTemplate.selectList("PetSitter.selectAll");
+	}
+
+	@Override
+	public void insert(PetSitter petSitter) throws PetsitterException {
+		int result = SqlSessionTemplate.insert("PetSitter.insert", petSitter);
+		
+		if(result<1) {
+			throw new PetsitterException("petsitter 입력 실패");
+		}
+		
+	}
+
+	@Override
+	public PetSitter select(int petsitter_idx) {
+		return SqlSessionTemplate.selectOne("PetSitter.select", petsitter_idx);
+	}
+
+}

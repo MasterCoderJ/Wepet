@@ -1,6 +1,7 @@
 package com.edu.wepet.client.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import com.edu.wepet.domain.Email;
 import com.edu.wepet.domain.Member;
 import com.edu.wepet.domain.Phone;
 import com.edu.wepet.domain.Sns;
+import com.edu.wepet.exception.MemberException;
 import com.edu.wepet.model.member.EmailService;
 import com.edu.wepet.model.member.MemberService;
 import com.edu.wepet.model.member.SnsService;
@@ -61,15 +63,7 @@ public class MemberController {
 	
 	@Autowired
 	private EmailService emailService;
-	
-	
-	//일반회원 조회
-	@GetMapping("/member/list")
-	public ModelAndView getUserList(HttpServletRequest request) {
 		
-		ModelAndView mav= new ModelAndView("wepet/admin/user/list");
-		return mav;
-	}
 	
 	//로그인 폼 요청
 	@GetMapping("/member/loginform")
@@ -79,6 +73,19 @@ public class MemberController {
 		return mav;
 	}
 	
+	//로그아웃 처리
+    @GetMapping("/member/logout")
+    public ModelAndView getLogout(HttpServletRequest request) throws MemberException{
+        
+        logger.info("logout 요청, 세션 주기기");
+        
+        HttpSession session = request.getSession();
+        session.invalidate();
+		
+		ModelAndView mav = new ModelAndView("redirect:/");
+        return mav;        
+        
+    }
 	
 	
 	//구글 로그인 콜백.
@@ -195,9 +202,10 @@ public class MemberController {
 			
 			//회원정보없으니까 -가입시키기
  			memberService.regist(member);
- 			
+ 			logger.info("방금 등록한 회원인 경우의 member_idx " + member.getMember_idx());
+		}else{			
+			logger.info("이미 회원인 경우의 member_idx " + member.getMember_idx());
 		}
-		
 		
 		
 		//나머지는 로그인을 그냥 가면 된다.	
@@ -299,12 +307,14 @@ public class MemberController {
 		Map properties=(Map)userMap.get("properties");
 		String nickname = (String)properties.get("nickname");
 		
+		Map kakao_account=(Map) userMap.get("kakao_account");
+        //String email = (String)kakao_account.get("email");
 		
 		logger.info("nickname is " + nickname);
-		
 
 		//멤버에 대한 고유 id 조회 -- dao
 		Member member = memberService.selectById(id);
+		
 		
 		//회원정보가 없다면 회원가입  --- 로그인은 
 		if(member==null) {
@@ -312,16 +322,27 @@ public class MemberController {
 		//로그인을 처리해주자 (서비스의 regist 후 세션에 담자)
 			//snsservice를 만들어야 함
 			
+			member = new Member();
+			
+			Email email = new Email();
+			email.setEmailaddr((String)kakao_account.get("email"));
+			logger.info("email에 뭐 들었나 " + email);
+		
 			Sns sns= snsService.selectByType("kakao");
 			logger.info("sns에 들어있는 sns_idx" + sns);
 
 			member.setSns(sns);
+			member.setEmail(email);
 			member.setId(id);
 			member.setNickname(nickname);
 			
 			//회원정보없으니까 -가입시키기
  			memberService.regist(member);
+ 			logger.info("방금 회원인 경우의 member_idx " + member.getMember_idx());
  			
+		}else {			
+			
+			logger.info("이미 회원인 경우의 member_idx " + member.getMember_idx());
 		}
 		
 		//나머지는 로그인을 그냥 가면 된다.	
@@ -463,8 +484,11 @@ public class MemberController {
 			
 			//회원정보없으니까 -가입시키기
  			memberService.regist(member);
- 			
+ 			logger.info("방금 회원인 경우의 member_idx " + member.getMember_idx());
+		}else{			
+			logger.info("이미 회원인 경우의 member_idx " + member.getMember_idx());
 		}
+		
 		
 		//나머지는 로그인을 그냥 가면 된다.	
 		session.setAttribute("member", member);
@@ -472,6 +496,76 @@ public class MemberController {
 		
 		return mav;
 	}
+	@GetMapping("/member/mypage")
+	public ModelAndView getMemberProfile(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_profile");
+		return mav;
+	}
 	
+	@GetMapping("/member/unregister")
+	public ModelAndView getMemberUnregister(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_unregister");
+		return mav;
+	}
+
+	@GetMapping("/member/schedule")
+	public ModelAndView getMemberSchedule(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_schedule");
+		return mav;
+	}
+	
+	@GetMapping("/member/like")
+	public ModelAndView getMemberHeart(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_heart");
+		return mav;
+	}
+	
+	@GetMapping("/member/chat")
+	public ModelAndView getMemberTalk(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_talk");
+		return mav;
+	}
+	
+	@GetMapping("/member/board")
+	public ModelAndView getMemberBoard(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_board");
+		return mav;
+	}
+	
+	@GetMapping("/member/diary")
+	public ModelAndView getMemberDiary(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_diary");
+		
+		return mav;
+	}
+	@GetMapping("/member/registform")
+	public ModelAndView getMemberDiaryRegist(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_diary_regist");
+		
+		return mav;
+	}
+	
+	@GetMapping("/member/inquiry")
+	public ModelAndView getMemberInquiry(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_inquiry");
+		return mav;
+	}
+	
+
+	@GetMapping("/member/map")
+	public ModelAndView getMemberLocation(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("wepet/client/page/member_map");
+		return mav;
+	}
 	
 }

@@ -11,29 +11,35 @@ import com.edu.wepet.domain.Phone;
 import com.edu.wepet.exception.PhoneException;
 
 @Repository
-public class MybatisPhoneDAO implements PhoneDAO{
-private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+public class MybatisPhoneDAO implements PhoneDAO {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
-	
-	@Override
-	public Phone select(int phone_idx) {
-		return sqlSessionTemplate.selectOne("Phone.select", phone_idx);
+
+
+	public Phone selectByPhone(Phone phone) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectOne("Phone.selectByPhone", phone);
 	}
 
 	@Override
 	public Phone selectByMember(Member member) {
 		return sqlSessionTemplate.selectOne("Phone.selectByMember", member);
 	}
+	
+	@Override
+	public Phone select(int member_idx) {
+		return sqlSessionTemplate.selectOne("Phone.select", member_idx);
+	}
+	
 
 	@Override
-	public void insert(Phone phone) throws PhoneException{
+	public void insert(Phone phone) throws PhoneException {
 		int result = sqlSessionTemplate.insert("Phone.insert", phone);
-		
-		if(result<1) {
-			throw new PhoneException("phone 입력 성공");
+
+		if (result < 1) {
+			throw new PhoneException("phone 입력 실패");
 		}
 	}
 

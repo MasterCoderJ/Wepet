@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommunityCat1">
+	<select id="select" resultType="CommunityCat1" parameterType="int">
+		select * from community_cat1 where community_cat1_idx = #{community_cat1_idx}
+	</select>
+	
+	<select id="selectAll" resultType="CommunityCat1">
+		select * from Community_Cat1 order by community_cat1_idx
+	</select>
+
+</mapper>

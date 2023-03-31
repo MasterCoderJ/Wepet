@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderSummary">
+
+	<insert id="insert" parameterType="OrderSummary">
+		insert into ordersummary(ordersummary_idx, orderId, orderName, amount, method, requestedAt) 
+		values(seq_ordersummary.nextval, #{orderId}, #{orderName}, #{amount}, #{method}, #{requestedAt})
+		
+		<selectKey order="AFTER" keyColumn="ordersummary_idx" keyProperty="ordersummary_idx" resultType="int">
+			select seq_ordersummary.currval as ordersummary_idx from dual
+		</selectKey>
+	</insert>
+	
+	<update id="update" parameterType="OrderSummary">
+		update ordersummary set rdays=#{rdays} , petkinds=#{petkinds} , msg=#{msg},  petsitter_idx=#{petsitter_idx}, member_idx=#{member_idx}  where ordersummary_idx=#{ordersummary_idx}
+	</update>
+	
+	
+	<select id="select" resultType="OrderSummary" parameterType="int">
+		select * from ordersummary where ordersummary_idx=#{ordersummary_idx}
+	</select>
+
+
+</mapper>

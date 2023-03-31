@@ -3,19 +3,15 @@
 <mapper namespace="Holiday">
 
 	<insert id="insert" parameterType="Holiday">
-		insert into holiday(yy, mm, dd) values(#{yy},#{mm},#{dd})
-	</insert>
+        insert into holiday(holiday_idx,yy, mm, dd) values(seq_holiday.nextval,#{yy},#{mm},#{dd})
+    </insert>
 	
 	<select id="selectAll" resultType="Holiday">
 		select * from holiday order by holiday_idx desc
 	</select>
 	
-	<select id="select" resultType="Holiday" parameterType="int">
-		select * from holiday where holiday_idx=#{holiday_idx}
-	</select>
-	
 	<delete id="delete" parameterType="Holiday">
-		delete from holiday where yy=#{yy}, mm=#{mm}, dd=#{dd} 
+		delete from holiday where yy=#{yy} and mm=#{mm} and dd=#{dd} 
 	</delete>
 		
 </mapper>

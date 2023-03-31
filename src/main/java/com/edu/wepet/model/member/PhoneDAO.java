@@ -6,7 +6,9 @@ import com.edu.wepet.domain.Phone;
 
 public interface PhoneDAO {
 
-	public Phone select(int phone_idx);
+	
+	public Phone select(int member_idx);
+	public Phone selectByPhone(Phone phone);
 	public Phone selectByMember(Member member);
 	public void insert(Phone phone);
 	

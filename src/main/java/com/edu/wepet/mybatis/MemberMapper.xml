@@ -3,43 +3,51 @@
 
 <mapper namespace="Member">
 
-<resultMap type="Member" id="memberMap">
-<id column="member_idx" property="member_idx" />
-<result column="id" property="id" />
-<result column="nickname" property="nickname" />
-<result column="regdate" property="regdate" />
+<!-- member_idx로 가져올 정보들 -->
+    <resultMap type="Member" 		id="memberMap"> 
+        <id     column="member_idx"  property="member_idx"/>
+        <result column="nickname"    property="nickname"/>
+        <result column="id"        		property="id"/>
+        <result column="regdate"     property="regdate"/>
+
+	<!-- association 한명의 회원이 펫시터 1:1 관계 // 펫시터를 가져오면 펫시터에 딸려있 apply 상태도 같이 -->
+	
+<association column="member_idx" 
+		property="petSitter"
+		javaType="PetSitter" 
+		select="PetSitter.select" /> 
+		
 		
 		<!-- 부모 ) sns -->
-		<association
+	<association
 			column="sns_idx" 
 			property="sns"
 			javaType="Sns"
 			select="Sns.selectByMember"
-		/>
-		
-		<!-- 자식 ) phone -->
-		<collection 
-		column="member_idx"
-		property="phone"
-		javaType="String"
-		ofType="Phone"
-		select="Phone.selectByMember"
-		/>
-		
+		/> 
+					
 	<!-- 자식) Email -->	
-	<collection  
+	<association 
 		column="member_idx"
 		property="email"
-		javaType="String"
-		ofType="Email"
-		select="Email.selectByMember"
-		/>
+		javaType="Email"
+		select="Email.selectByMember"/> 
+		
+	<!-- 자식 ) phone -->
+	<association 
+		column="member_idx"
+		property="phone"
+		javaType="Phone"
+		select="Phone.selectByMember"/> 
+	
+
+		
 </resultMap>
 
 
 	<!-- 일반회원 리스트 불러오기 -->
-	<select id="selectAll" resultMap="memberMap">
-		select * from member
+	<select id="selectAll" resultMap="memberMap" >
+		select * from member 
 	</select>
 	
 	<!-- 고유 id를 통한 회원 조회 -->
@@ -70,8 +78,7 @@
 	
 	
 	<update id="update" parameterType="Member">
-		update member set id =#{id} 
-		, nickname=#{nickname}
+		update member set id =#{id} , nickname=#{nickname}
 		where member_idx=#{member_idx}
 	</update>
 	

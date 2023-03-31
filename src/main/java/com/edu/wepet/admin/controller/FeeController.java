@@ -1,5 +1,6 @@
 package com.edu.wepet.admin.controller;
 
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.edu.wepet.model.admin.SalesService;
+import com.edu.wepet.model.sales.SalesService;
 import com.edu.wepet.util.Message;
 
 @Controller
@@ -34,9 +35,9 @@ public class FeeController {
 	private SalesService salesService;
 	
 	@GetMapping("/fee")
-	public ModelAndView getFee() {
+	public ModelAndView getFee(HttpServletRequest request) {
 		List salesList=salesService.selectSum();
-		ModelAndView mav=new ModelAndView("wepet/admin/fee");
+		ModelAndView mav=new ModelAndView("wepet/admin/payment/fee");
 		mav.addObject(salesList);
 		return mav;
 	}	

@@ -40,6 +40,15 @@ public class AdminLoginCheckAdvice {
 			uri.equals("/admin/rest/login/admin") ||
 			uri.equals("/admin/user/list") ||  	//회원 조회시
 			uri.equals("/admin/login") //동기방식으로 로그인 요청이 들어올때 제외 
+			
+			||
+			uri.equals("/regist") ||
+			uri.equals("/pay") ||
+			uri.equals("/payment/callback/success") ||
+			uri.equals("/admin/pay") ||
+			uri.equals("/reservation") ||
+			uri.equals("/review")
+			
 		
 		) {
 			result=joinPoint.proceed();

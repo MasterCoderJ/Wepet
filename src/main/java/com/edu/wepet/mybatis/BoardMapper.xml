@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="Board">
+
+
+<resultMap type="Board" id="boardMap">
+
+        <id         		column="community_board_idx"    	property="community_board_idx"/>
+        <result     	column="title"     				 			property="title"/>
+        <result    		column="content"                 			property="content"/>
+        <result     	column="hit"                  				property="hit"/>
+        <result 		column="recommand_cnt"				property="recommand_cnt"/>
+        <result     	column="regdate"             				property="regdate"/>
+
+
+
+        <!-- 부모인 카테고리와  association -->
+        <association 
+            column="member_idx" 
+            property="member"
+            javaType="Member"
+            select="Member.select"/>
+            
+         <association 
+            column="community_cat1_idx" 
+            property="community_cat1"
+            javaType="CommunityCat1"
+            select="CommunityCat1.select"/>
+            
+            
+            
+            <association 
+            column="community_cat2_idx" 
+            property="community_cat2"
+            javaType="CommunityCat2"
+            select="CommunityCat2.select"/>
+            
+         
+         
+            
+       <collection
+            column="community_board_idx" 
+            property="reply"
+            javaType="java.util.List"
+            ofType="Reply"
+            select="Reply.selectByBoardIdx"/> 
+       
+       
+    </resultMap>
+
+
+  
+    <select id="select" resultMap="boardMap" parameterType="int">
+        select * from community_board where community_board_idx=#{community_board_idx} 
+    </select>
+
+
+
+	<select id="selectAll" resultMap="boardMap">
+
+		select * from community_board order by community_board_idx asc
+
+	</select>
+
+	<insert id="insert" parameterType="Board">
+		insert into community_board (community_board_idx,member_idx,community_cat1_idx,community_cat2_idx,content,title) values(seq_community_board.nextval ,#{member.member_idx},#{community_cat1.community_cat1_idx},#{community_cat2.community_cat2_idx},#{content},#{title})
+	</insert>
+	
+	<update id="update" parameterType="Board">
+		update board set title=#{title}, cat1=#{cat1}, cat2=#{cat2}, content=#{content} where board_idx=#{board_idx}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from community_board where community_board_idx=#{community_board_idx}
+	</delete>
+
+</mapper>
+	
+
+

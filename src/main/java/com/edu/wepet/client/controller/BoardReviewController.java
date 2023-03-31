@@ -1,5 +1,6 @@
 package com.edu.wepet.client.controller;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.edu.wepet.domain.BoardReview;
-import com.edu.wepet.model.member.BoardReviewService;
+import com.edu.wepet.model.boardreview.BoardReviewService;
+import com.edu.wepet.model.ordersummary.OrderSummaryService;
 import com.google.gson.JsonObject;
 
 @Controller
@@ -55,7 +57,7 @@ public class BoardReviewController {
 		String content=x.substring(3, a);
 		System.out.println("content:"+content);
 		
-		int c=x.indexOf("fileupload/");
+		int c=x.indexOf("files/");
 		String imgPath=x.substring(c+11, x.length()-10);
 		System.out.println("imgPath:"+imgPath);
 		
@@ -85,7 +87,7 @@ public class BoardReviewController {
 		
 		// 내부경로로 저장
 		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
-		String fileRoot = contextRoot+"resources/summernote/fileupload/";
+		String fileRoot = contextRoot+"resources/summernote/files/";
 		
 		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
 		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
@@ -96,7 +98,7 @@ public class BoardReviewController {
 			InputStream fileStream = multipartFile.getInputStream();
 			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장		
 			
-			jsonObject.addProperty("url", "/resources/summernote/fileupload/"+savedFileName); // contextroot + resources + 저장할 내부 폴더명
+			jsonObject.addProperty("url", "/resources/summernote/files/"+savedFileName); // contextroot + resources + 저장할 내부 폴더명
 			jsonObject.addProperty("responseCode", "success");
 				
 		} catch (IOException e) {
@@ -109,12 +111,12 @@ public class BoardReviewController {
 	}
 	
 	@GetMapping("/review")
-	public ModelAndView getReview() {
+	public ModelAndView getReview(HttpServletRequest request) {
 		List boardreviewList=boardReviewService.selectAll();		
 		System.out.println(boardreviewList);
 		
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("wepet/client/board_review");
+		mav.setViewName("wepet/client/review_board/board_review");
 		mav.addObject("boardreviewList", boardreviewList);
 		return mav;
 	}	

@@ -13,10 +13,13 @@ public class PhoneServiceImpl implements PhoneService {
 	@Autowired
 	 private PhoneDAO phoneDAO;
 	 
-	
 	@Override
-	public Phone select(int phone_idx) {
-		return phoneDAO.select(phone_idx);
+	public Phone select(int member_idx) {
+		return phoneDAO.select(member_idx);
+	}
+	@Override
+	public Phone selectByPhone(Phone phone) {
+		return phoneDAO.selectByPhone(phone);
 	}
 
 	@Override

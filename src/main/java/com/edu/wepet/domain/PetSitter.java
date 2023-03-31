@@ -14,5 +14,6 @@ public class PetSitter {
 	 
 	 private String accountNum; 	//계좌번호 
 	 private String bank;  		//은행
+	 private String exp; 		//펫 경험유무 
 	 
 }

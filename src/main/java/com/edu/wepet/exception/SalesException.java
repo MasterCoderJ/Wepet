@@ -1,5 +1,6 @@
 package com.edu.wepet.exception;
 
+
 public class SalesException extends RuntimeException {
 
 	public SalesException(String msg) {

@@ -1,5 +1,7 @@
 package com.edu.wepet.admin.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.edu.wepet.domain.Admin;
+import com.edu.wepet.domain.Member;
+import com.edu.wepet.domain.PetSitter;
 import com.edu.wepet.exception.AdminException;
 import com.edu.wepet.model.admin.AdminService;
+import com.edu.wepet.model.member.MemberService;
+import com.edu.wepet.model.member.PetsitterService;
 
 
 
@@ -24,6 +30,12 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
+	private PetsitterService petsitterService;
 	
 	
 	//관리자 로그인 폼 요청처리
@@ -39,7 +51,9 @@ public class AdminController {
 	@PostMapping("/login")
 	public ModelAndView login(HttpServletRequest request, Admin admin) {
 		
-		adminService.select(admin);
+		Admin obj = adminService.select(admin);
+		HttpSession session=request.getSession();
+		session.setAttribute("admin",obj);
 		
 		ModelAndView mav = new ModelAndView("redirect:/admin/main");
 		
@@ -68,5 +82,41 @@ public class AdminController {
 	}
 	
 	
+	//일반회원 명 리스트 조회
+	@GetMapping("/member/list")
+	public ModelAndView getUserList(HttpServletRequest request) {
+		
+		List<Member> memberList = memberService.selectAll();
+
+		ModelAndView mav= new ModelAndView("wepet/admin/user/list");
+		mav.addObject("memberList", memberList);
+
+		
+		return mav;
+	}
+	
+	//펫시터 회원리스트 조회
+	@GetMapping("/petsitter/list")
+	public ModelAndView getPetsitterList(HttpServletRequest request) {
+		
+		List<PetSitter> petsitterList = petsitterService.selectAll();
+		
+		ModelAndView mav= new ModelAndView("wepet/admin/user/sitter_list");
+		mav.addObject("petsitterList", petsitterList);
+		
+		return mav;
+	}
+	
+	
+	//펫시터 승인내역 조회
+	/*
+	 * @GetMapping("/petsitter/apply/list") public ModelAndView
+	 * getApplyList(HttpServletRequest request) {
+	 * 
+	 * ModelAndView mav= new ModelAndView("wepet/admin/user/apply_list"); return
+	 * mav; }
+	 */
+
+
 
 }

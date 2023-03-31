@@ -1,4 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@page import="org.slf4j.LoggerFactory"%>
+<%@page import="org.slf4j.Logger"%>
+<%@page import="com.edu.wepet.domain.PetSitter"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%
+	Member member2 =(Member)session.getAttribute("member");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +17,7 @@
 <meta content="" name="description">
 
 <!-- Header Start -->
-<%@ include file=../inc/gardener/inc/header_link.jsp"%>
+<%@ include file="../inc/gardener/inc/header_link.jsp"%>
 <!-- Header End -->
 
 <script src="https://js.tosspayments.com/v1/payment"></script>
@@ -19,11 +26,6 @@
 
 <body>
 	<!-- Spinner Start 로딩시 빙글빙글이라 따로 안뺌-->
-	<div id="spinner"
-		class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-		<div class="spinner-border text-primary" role="status"
-			style="width: 3rem; height: 3rem;"></div>
-	</div>
 	<!-- Spinner End -->
 
 	<!-- Topbar Start 맨 윗칸 전화모양-->
@@ -96,52 +98,18 @@
 								<div class="form-floating">
 
 									<div class="table-responsive text-nowrap">
-										<table class="table table-hover" style="height: 200px">
-											<thead class="table">
+										<table class="table table-hover" style="height: 100px">
+											<thead class="table-active">
 												<tr>
 													<th></th>
-													<th>예약 정보</th>
+													<th>펫 종류</th>
+													<th>펫 수</th>
 													<th>예약 금액</th>
-													<th>할인액</th>
 													<th>예약일</th>
-													<th>결제 금액</th>
+													<th>예약 금액</th>
 												</tr>
 											</thead>
-											<tbody class="table-border-bottom-0">
-
-												<%
-									for (int i = 0; i < 1; i++) {
-								%>
-												<%
-									String nodot = Double.toString((i * 10000) * (0.1));
-								%>
-
-												<tr>
-													<td></td>
-													<td><%=request.getParameter("pettype")+" "+request.getParameter("petcount") %></td>
-													<td><%=request.getParameter("money") + "원"%></td>
-													<td><%=nodot.substring(0, nodot.lastIndexOf(".")) + "원"%></td>
-													<td><%=request.getParameter("date") + "일"%></td>
-													<td><%=request.getParameter("money") + "원"%></td>
-													<td></td>
-													<td>
-														<div class="dropdown">
-															<button type="button"
-																class="btn p-0 dropdown-toggle hide-arrow"
-																data-bs-toggle="dropdown">
-																<i class="bx bx-dots-vertical-rounded"></i>
-															</button>
-															<div class="dropdown-menu">
-																<a class="dropdown-item"> Edit</a> <a
-																	class="dropdown-item"> Delete</a>
-															</div>
-														</div>
-													</td>
-												</tr>
-
-												<%
-									}
-								%>
+											<tbody class="table-border-bottom-0" id="tbody">
 
 											</tbody>
 										</table>
@@ -153,88 +121,98 @@
 
 
 
-
 							<div class="col-sm-6">
 								<div class="form-floating">
 									<input type="text" class="form-control border-0"
-										id="customerName" placeholder="Gurdian Name"> <label
-										for="customerName">주문자</label>
+										id="customerName" placeholder="Gurdian Name" readonly="" value=""> <label
+										for="customerName">주문자 : </label>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-floating">
 									<input type="text" class="form-control border-0" id="amount"
-										placeholder="Gurdian Name" value="<%=request.getParameter("money")%>"> <label for="amount">금액</label>
+										placeholder="Gurdian Name" value="" readonly=""> <label for="amount">총 예약 금액 :</label>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-floating">
-									<input type="text" class="form-control border-0" id="orderName"
-										placeholder="Gurdian Name"> <label for="orderName">주문명</label>
+									<input type="text" class="form-control border-0" id="orderName" readonly=""
+										placeholder="Gurdian Name" value=""> 
+										<label for="orderName">주문명 : </label>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-floating">
 									<input type="text" class="form-control border-0" id="orderId"
-										placeholder="Child Name" readonly=""> <label
-										for="orderId">주문번호 : e0DcYFQK5ONwlp5bMR0V3</label>
+										placeholder="Child Name" readonly="" value=""> 
+										<label for="orderId">주문번호 : </label>
 								</div>
 							</div>
 
 
 							<div class="col-sm-12">
 								<div class="form-floating">
-
-									<div class="cart_title mt-5">
+								<div class="row">
+									<div class="col-sm-10 cart_title mt-5">
 										<h4 class="order-ttl">
 											<span>02. </span> 주문자 정보 확인
 										</h4>
-										<hr>
 									</div>
 
+							</div>									
+							<hr>
+
 
 								</div>
 							</div>
 
 							<div class="col-sm-12">
+								<div class="text-end align-self-center mb-3">
+									<button class="btn btn-primary" id="bt_registAddr" type="button">내 정보 저장하기</button>
+								</div>
 								<div class="form-floating">
-									<input type="text" class="form-control border-0" id="gname"
-										placeholder="Gurdian Name" value="<%if(request.getParameter("addr")!=null){%><%=request.getParameter("addr")%><%}%>"> <label for="gname">주소</label>
+									<input type="text" class="form-control border-0" id="addr1" name="addr1"
+										placeholder="Gurdian Name" 
+										value="<%if(request.getParameter("addr")!=null){request.getParameter("addr");}%>"> 
+										<label for="gname">주소</label>
 								</div>
 							</div>
-							<div class="col-sm-12">
+
+							<div class="col-sm-6">
 								<div class="form-floating">
-									<input type="email" class="form-control border-0" id="gmail"
-										placeholder="Gurdian Email"> <label for="gmail">상세주소</label>
+									<input type="text" class="form-control border-0" id="phone"
+										placeholder="Gurdian Name" value="<%if(request.getParameter("phone")!=null){request.getParameter("phone");}%>"> <label for="gnum">Mobile</label>
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-floating">
-									<input type="text" class="form-control border-0" id="gname"
-										placeholder="Gurdian Name" value="<%if(request.getParameter("phone")!=null){%><%=request.getParameter("phone")%><%}%>"> <label for="gnum">Mobile</label>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="form-floating">
-									<input type="text" class="form-control border-0" id="cname"
-										placeholder="Child Name" value="<%if(request.getParameter("email")!=null){%><%=request.getParameter("email")%><%}%>"> <label for="cname">email</label>
+									<input type="text" class="form-control border-0" id="email"
+										placeholder="Child Name" value="<%if(request.getParameter("email")!=null){request.getParameter("email");}%>"> <label for="cname">email</label>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-floating">
 									<textarea class="form-control border-0"
-										placeholder="Leave a message here" id="message"
+										placeholder="Leave a message here" id="message" value=""
 										style="height: 100px"></textarea>
 									<label for="message">요청사항</label>
 								</div>
 							</div>
 
+							<input type="hidden" class="form-control" id="hiddenpet" value="">
+							<input type="hidden" class="form-control" id="hiddenday" value="">
+							<input type="hidden" class="form-control" id="hiddenidx" value="<%=request.getParameter("petsitter_idx")%>">
+
+							
+	
+
+
 							<div class="col-sm-12">
 								<div class="form-floating">
 
 									<div class="cart_title mt-5">
 										<h4 class="order-ttl">
-											<span>03. </span> 할인 혜택
+											<span>03. </span> 결제 정보
 										</h4>
 										<hr>
 									</div>
@@ -244,39 +222,7 @@
 							</div>
 
 
-							<div class="col-sm-12">
-								<div class="form-floating">
-
-									<div class="cart_title mt-5">
-										<h4 class="order-ttl">
-											<span>04. </span> 결제 정보
-										</h4>
-										<hr>
-									</div>
-
-
-								</div>
-							</div>
-
-
-							<div class="col-6">
-								<div class="form-floating">
-
-									<div class="cart-detail cart-total bg-light p-3 p-md-4">
-										<h3 class="billing-heading mb-4">최종 결제 금액</h3>
-										<p class="d-flex">
-											<span>예약 금액</span> <span>&nbsp; <%=request.getParameter("money") %> 원</span>
-										</p>
-										<p class="d-flex">
-											<span>쿠폰 할인</span> <span>&nbsp; 0 원</span>
-										</p>
-										<hr>
-										<p class="d-flex total-price">
-											<span>최종 결제 금액</span> <span>&nbsp; <%=request.getParameter("money") %> 원</span>
-										</p>
-									</div>
-								</div>
-							</div>
+	
 
 
 
@@ -320,10 +266,6 @@
 	<!-- Quote End -->
 
 
-
-
-
-
 	<!-- .col-md-8 -->
 
 
@@ -343,10 +285,13 @@
 		class="bi bi-arrow-up"></i></a>
 
 </body>
+
+
 <script type="text/javascript">
 
 var clientKey = 'test_ck_YoEjb0gm23Pvlz55QYorpGwBJn5e'
 var tossPayments = TossPayments(clientKey) // 클라이언트 키로 초기화하기
+
 
 function getpay() {
 	let how=$('input[name=check]:checked').val(); //카드 or 가상계좌 로만 받아와야함
@@ -354,15 +299,22 @@ function getpay() {
 	let amount=$("#amount").val();
 	let orderName=$("#orderName").val();
 	let customerName=$("#customerName").val();	
-	
+	let orderId=$("#orderId").val();
+	let msg=$("#message").val();
+	let petkinds=$("#hiddenpet").val();
+	let rdays=$("#hiddenday").val();
+	let petsitter_idx=$("#hiddenidx").val();
+
+
 	tossPayments.requestPayment(how, { // 결제 수단 파라미터
       // 결제 정보 파라미터
       amount: amount,
-      orderId: 'e0DcYFQK5ONwlp5bMR0V3',
+      orderId: orderId,
       orderName: orderName,
       customerName: customerName,
-      successUrl: 'http://localhost:7777/wepet/client/success',
-      failUrl: 'http://localhost:7777/wepet/fail',
+      successUrl: 'http://localhost:7777/payment/callback/success'+'?msg='+msg+'&petkinds='+petkinds+'&rdays='+rdays+'&petsitter_idx='+petsitter_idx,
+      failUrl: 'http://localhost:7777/payment/callback/fail',
+
     })
     .catch(function (error) {
        if (error.code === 'USER_CANCEL') {
@@ -370,16 +322,121 @@ function getpay() {
       	} else if (error.code === 'INVALID_CARD_COMPANY') {
        		// 유효하지 않은 카드 코드에 대한 에러 처리
      	}
-    })
+    });	
+}
+
+function getData() {
+	let data=JSON.parse(localStorage.getItem("data"));
+	let pets=[];
+	let days=[];
+	
+	for(let i=0; i<data.length; i++){
+		//console.log(data[i].pet_kind);
+		
+		var insertTr="";
+		insertTr="<tr>";
+		insertTr+="<td></td>"
+		insertTr+="<td>"+data[i].pet_kind+"</td>"
+		insertTr+="<td>"+data[i].pet_number+"</td>"
+		insertTr+="<td>"+data[i].fee+"</td>"
+		insertTr+="<td>"+data[i].yy+"-"+data[i].mm+"-"+data[i].dd+"</td>"
+		insertTr+="<td>"+data[i].fee+"</td>"
+		insertTr+="</tr>";
+		$("#tbody").append(insertTr);
+
+		
+		let a=(data[i].fee)*(i+1);
+		$("#amount").val(a);
+		$("#sp").val(a);
+		
+		let b="안현정 펫시터-"+data[i].pet_kind+"_"+data[i].pet_number+"_외"+data[i].mm+data[i].dd
+		$("#orderName").val(b);
+		
+		pets.push(data[i].pet_kind);
+		days.push(data[i].yy+"-"+data[i].mm+"-"+data[i].dd);
+
+		$("#hiddenpet").val(pets);
+		$("#hiddenday").val(days);
+
+		
+		
+		
+	}
+}
+
+function getId() {
+	let nickname="<%=member2.getNickname()%>";	
+	$("#customerName").val(nickname);
+	
+	
+	
+	$.ajax({
+		url:"rest/encode",
+		type:"get",
+		success:function(result, status, xhr){
+			
+			console.log(result);
+			let cc=<%=request.getParameter("petcount")+request.getParameter("date") %>;
+			
+			$("#orderId").val(result+cc);
+		}
+    });
 	
 }
+
+function registAddr() {
+	let addr1_name=$("#addr1").val();
+	let phoneNumber=$("#phone").val();
+	let emailaddr=$("#email").val();
+	
+//	console.log(addr1_name);
+
+	let allData = { "addr1_name": addr1_name, "phoneNumber": phoneNumber, "emailaddr": emailaddr};
+		
+	$.ajax({
+		url:"rest/registAddr",
+		type:"post",
+		data: allData,
+		success:function(result, status, xhr){
+			alert(result.msg);
+		}
+    });
+}
+
+// function getNick() {
+<%-- 	let petsitter_idx=<%=request.getParameter("petsitter_idx")%>; --%>
+	
+// 	let allData = { "petsitter_idx": petsitter_idx};
+	
+// 	$.ajax({
+// 		url:"rest/getNick",
+// 		type:"get",
+// 		data: allData,
+// 		success:function(result, status, xhr){
+// 			console.log(result.sitter_nickname);
+// 			let nickname=result.sitter_nickname;
+			
+// 		}
+//     });
+	
+// }
       
-$(function(){
-    $("#bt_pay").click(function(){
+$(function(){	
+
+	getId();	
+	getData();
+	
+    $("#bt_registAddr").click(function(){      	
+    	registAddr();
+    });
+	
+    $("#bt_pay").click(function(){	
         getpay();
     });
 });
 
 </script>
+
+
 
 </html>

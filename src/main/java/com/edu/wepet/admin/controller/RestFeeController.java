@@ -1,5 +1,7 @@
 package com.edu.wepet.admin.controller;
 
+
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.wepet.exception.SalesException;
-import com.edu.wepet.model.admin.SalesService;
+import com.edu.wepet.model.sales.SalesService;
 import com.edu.wepet.util.Message;
 
 @RestController
@@ -86,7 +88,7 @@ public class RestFeeController {
 	}
 	
 	@ExceptionHandler(SalesException.class)
-	public ResponseEntity<Message> handle(SalesException e) {
+	public ResponseEntity<Message> handle(SalesException e, HttpServletRequest request) {
 		Message message=new Message();
 		message.setMsg(e.getMessage());
 

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,11 +35,7 @@
 
 <body>
 	<!-- Spinner Start 로딩시 빙글빙글이라 따로 안뺌-->
-	<div id="spinner"
-		class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-		<div class="spinner-border text-primary" role="status"
-			style="width: 3rem; height: 3rem;"></div>
-	</div>
+
 	<!-- Spinner End -->
 
 	<!-- Topbar Start 맨 윗칸 전화모양-->
@@ -52,6 +48,8 @@
 
 	<!-- Body -->
 	<a class="skip-link sr-only" href="#skip-target">Skip to content</a>
+
+
 
 	<!-- Quote Start -->
 	<div class="container-fluid py-5">
@@ -117,7 +115,7 @@
 																		<tr>
 																			<th></th>
 																			<th><input type="radio">포토리뷰만</th>
-																			<th style="text-align: right;">최근 등록순 / 추천순 / 별점
+																			<th style="text-align: right;" colspan="2">최근 등록순 / 추천순 / 별점
 																				높은순 /별점 낮은순</th>
 																			<th></th>
 																		</tr>
@@ -159,7 +157,7 @@
 		                            <div class="col-sm-6">
 		                                <div class="form-floating">
 		                                    <input type="text" class="form-control border-0 bg-light" name="title" id="title" placeholder="Gurdian Name">
-		                                    <label for="gname">작성자</label>
+		                                    <label for="gname">제목</label>
 		                                </div>
 		                            </div>
 		                            <div class="col-sm-6">
@@ -201,6 +199,8 @@
 	</div>
 
 
+
+
 	<!--  Sidebar Start -->
 	<!--  Sidebar End-->
 
@@ -215,7 +215,6 @@
 	<a href="#"
 		class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
 		class="bi bi-arrow-up"></i></a>
-		
 		
 	
 <script type="text/javascript">
@@ -232,26 +231,28 @@ const product={
 		<tr>
 		<td class="align-middle" colspan="">{{n}}</td>
 		<td class="align-middle" colspan="">
-			<img v-bind:src="'/resources/summernote/fileupload/'+json.imgPath" alt="collapse-image" height="125" class="me-4 mb-sm-0 mb-2" />
+			<img v-bind:src="'/resources/summernote/files/'+json.imgPath" alt="collapse-image" height="125" class="me-4 mb-sm-0 mb-2" />
 		</td>
-		<td class="align-middle" colspan="2">
+		<td class="align-middle">
 				<a class="nav-link active"  
 					href="" 
 					data-bs-toggle="collapse"
 						v-bind:data-bs-target="'#collapseExample'+n"
 					aria-expanded="false"
 						v-bind:aria-controls="'collapseExample'+n">
-					{{json.title}}</a>
+					{{json.title}}</a><br>
 
 				<div class="collapse" v-bind:id="'collapseExample'+n">
 					<div class="d-grid d-sm-flex p-3 border">
-
-						<span>{{json.title}}</span>
+						<span>{{json.title}} &nbsp; &nbsp;</span>
+						<span>{{json.content}}</span>					
 					</div>
 				</div>
-
-			</div>
-		
+			</div>		
+		</td>
+		<td class="align-middle" colspan="2">
+			<span>  작성자 : {{json.member_idx}}</span><br>
+			<span>  별점 : {{json.star}} 점</span>
 		</td>
 	</tr>
 	`,
@@ -424,5 +425,7 @@ $(function(){
 });	
 
 </script>
+
+
 </body>
 </html>

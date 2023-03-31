@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CertCategory">
+
+	<select id="selectAll" resultType="CertCategory">
+		select * from certcategory order by certcategory_idx asc
+	</select>
+	
+	<select id="select" resultType="CertCategory" parameterType="int">
+		select * from certcategory where certcategory_idx=#{certcategory_idx}
+	</select>
+	
+	<insert id="insert" parameterType="CertCategory">
+		insert into certcategory(certcategory_name) values(#{certcategory_name})
+	</insert>	
+	
+	<update id="update" parameterType="CertCategory">
+		update certcategory set certcategory_name=#{certcategory_name}
+		where certcategory_idx=#{certcategory_idx}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from certcategory where certcategory_idx=#{certcategory_idx}
+	</delete>	
+
+</mapper>

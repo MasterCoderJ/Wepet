@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,14 +43,14 @@
 
 
 	<!-- Page Header Start -->
-	<div class="container-fluid page-header py-5 mb-5 wow fadeIn"
+	<div class="container-fluid page-header py-5 mb-3 wow fadeIn"
 		data-wow-delay="0.1s">
 		<div class="container text-center py-5">
 			<h1 class="display-3 text-white mb-4 animated slideInDown">펫시터 지원</h1>
 			<nav aria-label="breadcrumb animated slideInDown">
 				<ol class="breadcrumb justify-content-center mb-0">
-					<li class="breadcrumb-item"><a href="/main">Home</a></li>
-					<li class="breadcrumb-item"><a href="/petsitter/apply">펫시터 지원</a></li>
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
+					<li class="breadcrumb-item"><a href="/petsitter/registform">펫시터 지원</a></li>
 					<li class="breadcrumb-item active" aria-current="page">지원하기</li>
 				</ol>
 			</nav>
@@ -64,11 +64,12 @@
 				style="max-width: 500px;">
 				<h1 class="display-5 mb-5">펫시터 지원하기</h1>
 			</div>
+	  <form id="form1">
 			<div class="row justify-content-center">
 				<div class="col-lg-9">
 					<div class="bg-light rounded p-4 p-sm-5 wow fadeInUp"
 						data-wow-delay="0.1s">
-						<div class="row g-3">
+						<div class="row g-2">
 
 
 							<div class="col-sm-12">
@@ -87,42 +88,72 @@
 
 							<div class="col-sm-12">
 								<div class="form-floating">
-									<input type="text" class="form-control border-0" id="sittername"
-										placeholder="Gurdian Name"> <label for="gname">활동명</label>
+									<input type="text" class="form-control border-0" id="sitter_nickname"
+										placeholder="Gurdian Name" name="sitter_nickname"> <label for="sitter_nickname">활동명</label>
 								</div>
 							</div>
 						
 						
 						<div class="col-sm-4">
-                            <select id="country" class="select2 form-select border-0">
+                            <select id="bank" name="bank" class="select2 form-select border-0">
                               <option value="">은행선택하세요</option>
                               <option value="기업">기업</option>
                               <option value="신한">신한</option>
-                              <option value="Belarus">농협</option>
-                              <option value="Brazil">국만</option>
-                              <option value="Canada">우리</option>
+                              <option value="농협">농협</option>
+                              <option value="국민">국민</option>
+                              <option value="우리">우리</option>
                             </select>
                           </div>					
 				
 							<div class="col-sm-8">
 								<div class="form-floating">
-									<input type="text" class="form-control border-0" id="account"
+									<input type="text" class="form-control border-0" id="account" name="accountNum"
 										placeholder="Gurdian Name"> <label for="account">계좌번호</label>
 								</div>
 							</div>
-								<tr>								
-								<th class="form-control border-0" style="text-align:center">반려동물 및 펫시터 경험유무</th>
-									<div>
-									<input type="radio" id="cs_biz_form" name="check1" value="ok">경험있음
-									<input type="radio" id="cs_biz_form" name="check1" value="false">경험없음
+
+							<div class="col-4">
+								<div class="form-floating">
+
+									<div class="cart-detail cart-total bg-light p-3 p-md-4">
+										<p class="d-flex total-price">
+											<span>펫시터 경험 유무</span>
+										</p>
 									</div>
-								 </td>
-								 </tr>
-															
 								</div>
+							</div>
+
+
+							<div class="col-8 text-center align-self-center">
+								<div class="form-floating">
+									<div class="card h-100">
+										<div class="row">
+											<div class="card-body">
+												<div class="d-flex justify-content-center">
+													<div class="form-check-inline m-1">
+														<h5>경험 유무 선택</h5>
+														<input class="form-check-input" type="radio" value="no"
+															name="exp" checked=""> <label
+															class="form-check-label" > 경험없음
+														</label> <input class="form-check-input" type="radio" value="yes"
+															name="exp"> <label
+															class="form-check-label" >
+															경험있음 </label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+                                   <button type="submit" class="btn btn-primary" id="bt_regist">펫시터 신청하기</button>
+                        </div>
+																
 							</div>
 						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 
@@ -140,11 +171,32 @@
 	<!-- Copyright End -->
 
 
+
+
 	<!-- Back to Top -->
 	<a href="#"
-		class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+		class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+		class="bi bi-arrow-up"></i></a>
+
+<script type="text/javascript">
+
+function regist() {
+	$("#form1").attr({
+		action:"/sitter/mypage",
+		method: "GET"
+	});
+	$("#form1").submit();
+	alert("가입신청 완료, 펫시터 마이페이지에서 기본 정보를 입력해주세요");
+}
+
+$(function(){
+	$("#bt_regist").click(function(){
+		 regist();
+
+	});
+
+});
+</script>
 
 </body>
-
-
 </html>

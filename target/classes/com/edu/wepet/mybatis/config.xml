@@ -4,31 +4,62 @@
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 <typeAliases>
-	<typeAlias type="com.edu.wepet.domain.Admin" alias="Admin"/>
+	<typeAlias type="com.edu.wepet.domain.Admin" alias="Admin"/>	
 	<typeAlias type="com.edu.wepet.domain.Member" alias="Member"/>
+	<typeAlias type="com.edu.wepet.domain.PetSitter" alias="PetSitter"/>
+	<typeAlias type="com.edu.wepet.domain.SitterApply" alias="SitterApply"/>	
+	<typeAlias type="com.edu.wepet.domain.Addr1" alias="Addr1"/>
 	<typeAlias type="com.edu.wepet.domain.Email" alias="Email"/>
 	<typeAlias type="com.edu.wepet.domain.Phone" alias="Phone"/>
 	<typeAlias type="com.edu.wepet.domain.Sns" alias="Sns"/>
-	<typeAlias type="com.edu.wepet.domain.SitterApply" alias="SitterApply"/>
-	<typeAlias type="com.edu.wepet.domain.PetSitter" alias="PetSitter"/>
-	<typeAlias type="com.edu.wepet.domain.BoardReview" alias="BoardReview"/>
+	
+	<typeAlias type="com.edu.wepet.domain.OrderSummary" alias="OrderSummary"/>
 	<typeAlias type="com.edu.wepet.domain.Sales" alias="Sales"/>
+	<typeAlias type="com.edu.wepet.domain.BoardReview" alias="BoardReview"/>
+	
 	<typeAlias type="com.edu.wepet.domain.Holiday" alias="Holiday"/>
 	<typeAlias type="com.edu.wepet.domain.PreReservation" alias="PreReservation"/>
+
+	<typeAlias type="com.edu.wepet.domain.CertCategory" alias="CertCategory"/>
+	<typeAlias type="com.edu.wepet.domain.Certificate" alias="Certificate"/>
+	<typeAlias type="com.edu.wepet.domain.SitterDiary" alias="SitterDiary"/>
+
+	<typeAlias type="com.edu.wepet.domain.Board" alias="Board"/>
+	<typeAlias type="com.edu.wepet.domain.Reply" alias="Reply"/>
+	<typeAlias type="com.edu.wepet.domain.Pimg" alias="Pimg"/>	
+	<typeAlias type="com.edu.wepet.domain.CommunityCat1" alias="CommunityCat1"/>	
+	<typeAlias type="com.edu.wepet.domain.CommunityCat2" alias="CommunityCat2"/>		
+	
+
 </typeAliases>
  
   <mappers>
+  
 	<mapper resource="com/edu/wepet/mybatis/AdminMapper.xml" />
 	<mapper resource="com/edu/wepet/mybatis/MemberMapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/PetsitterMapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/SitterApplyMapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/Addr1Mapper.xml" />
 	<mapper resource="com/edu/wepet/mybatis/EmailMapper.xml" />
 	<mapper resource="com/edu/wepet/mybatis/PhoneMapper.xml" />
 	<mapper resource="com/edu/wepet/mybatis/SnsMapper.xml" />
-	<mapper resource="com/edu/wepet/mybatis/SitterApplyMapper.xml" />
-	<mapper resource="com/edu/wepet/mybatis/PetsitterMapper.xml" />
-	<mapper resource="com/edu/wepet/mybatis/BoardReviewMapper.xml" />
+	
+	<mapper resource="com/edu/wepet/mybatis/OrderSummaryMapper.xml" />
 	<mapper resource="com/edu/wepet/mybatis/SalesMapper.xml" />
-	<mapper resource="com/edu/wepet/mybatis/HolidayMapper.xml" />
-	<mapper resource="com/edu/wepet/mybatis/PreReservationMapper.xml" />
-
+	<mapper resource="com/edu/wepet/mybatis/BoardReviewMapper.xml" />
+	
+  	<mapper resource="com/edu/wepet/mybatis/HolidayMapper.xml"/>
+  	<mapper resource="com/edu/wepet/mybatis/PreReservationMapper.xml"/>
+  	
+  	<mapper resource="com/edu/wepet/mybatis/CertCategoryMapper.xml"/>
+  	<mapper resource="com/edu/wepet/mybatis/CertificateMapper.xml"/>
+  	<mapper resource="com/edu/wepet/mybatis/SitterDiaryMapper.xml"/>
+	
+	<mapper resource="com/edu/wepet/mybatis/BoardMapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/ReplyMapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/PimgMapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/CommunityCat1Mapper.xml" />
+	<mapper resource="com/edu/wepet/mybatis/CommunityCat2Mapper.xml" />
+	
   </mappers>
 </configuration>
